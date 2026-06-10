@@ -99,7 +99,38 @@ const geturl = async (req, res) => {
 
 }
 
+
+const getstats = async (req, res) => {
+
+    try {
+        console.log("getstats")
+        const { shortCode } = req.params;
+        const urlid = await UrlModel.findOne({ shortCode });
+
+        if (!shortCode) {
+            res.status(400).json({
+                status: "Failed",
+                message: "Not found"
+            })
+        }
+
+        const count = urlid.clicks;
+        res.status(201).json({
+            status: "Success",
+            count: count
+        })
+
+
+    } catch (err) {
+        res.status(400).json({
+            status: "Failed",
+            err: err.message
+        })
+    }
+}
 module.exports = {
     createnewshortUrl,
-    geturl
+    geturl,
+    getstats
+
 }
