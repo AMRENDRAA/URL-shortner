@@ -11,7 +11,7 @@ const createnewshortUrl = async (req, res) => {
         if (!originalUrl) {
             return res.status(400).json({
                 "status": "Failed",
-                "message": "Please provodie url "
+                "message": "Please provide url "
 
             })
         }
@@ -37,7 +37,8 @@ const createnewshortUrl = async (req, res) => {
                 shortCode: newid.shortCode,
                 shorturl: `http://localhost:3000/${newid.shortCode}`,
                 createdAt: newid.createdAt,
-                updatedAt: newid.updatedAt
+                updatedAt: newid.updatedAt,
+                createdBy: req.user.id
             }
 
         })
@@ -99,7 +100,38 @@ const geturl = async (req, res) => {
 
 }
 
+
+const getstats = async (req, res) => {
+
+    try {
+        console.log("getstats")
+        const { shortCode } = req.params;
+        const urlid = await UrlModel.findOne({ shortCode });
+
+        if (!shortCode) {
+            res.status(400).json({
+                status: "Failed",
+                message: "Not found"
+            })
+        }
+
+        const count = urlid.clicks;
+        res.status(201).json({
+            status: "Success",
+            count: count
+        })
+
+
+    } catch (err) {
+        res.status(400).json({
+            status: "Failed",
+            err: err.message
+        })
+    }
+}
 module.exports = {
     createnewshortUrl,
-    geturl
+    geturl,
+    getstats
+
 }
