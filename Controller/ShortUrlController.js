@@ -35,7 +35,7 @@ const createnewshortUrl = async (req, res) => {
                 id: newid._id,
                 originalUrl: newid.originalUrl,
                 shortCode: newid.shortCode,
-                shorturl: `http://localhost:3000/${newid.shortCode}`,
+                shorturl: `https://url-shortner-production-5b09.up.railway.app//${newid.shortCode}`,
                 createdAt: newid.createdAt,
                 updatedAt: newid.updatedAt,
                 createdBy: req.user.id
